@@ -108,8 +108,8 @@
       durationMin: 20,
       webhookUrl: "https://script.google.com/macros/s/AKfycbz0ZKCEcUj6tMBIvp33L0QFlZMZ8u4R4floJi9FiIwGYOABVLt7zuf_hu50UMYAgcOJ/exec",
 
-      // Ключ правильних відповідей (0-базові індекси) — рівно під 10 питань:
-      // [1: Фіала, 2: Павел, 3: Бенеш (CEO ČEZ), 4: 1993, 5: ~20 млрд €, 6: Прага (HQ), 7: ~15 тис. співроб., 8: ПФБ, 9: Карлів міст, 10: Пльзень]
+      // Ключ правильних відповідей (0-базові індекси):
+      // [1: Фіала, 2: Павел, 3: Бенеш (CEO ČEZ), 4: 1993, 5: ~20 млрд €, 6: Прага, 7: ~15 тис., 8: ПФБ, 9: Карлів міст, 10: Пльзень]
       answerKey: [0,0,0,0,1,0,1,1,0,1],
 
       questions: [
@@ -286,7 +286,8 @@
       if(q.type==='single'){
         const sel = options.querySelector('input:checked'); picked = sel ? [ +sel.value ] : [];
       } else if(q.type==='multiple'){
-        picked = [...options.querySelectorAll('input:checked').map(i=>+i.value)];
+        // ← ИСПРАВЛЕНО: сначала превращаем NodeList в массив, затем .map(...)
+        picked = [...options.querySelectorAll('input:checked')].map(i=>+i.value);
       } else if(q.type==='order'){
         picked = Array.from(options.querySelectorAll('#orderList .draggable')).map(el=>el.textContent);
       } else if(q.type==='match'){
