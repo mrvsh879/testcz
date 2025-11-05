@@ -71,7 +71,7 @@
       <header>
         <div>
           <h1>Інтерактивний тест</h1>
-          <div class="muted">Вхід через Google або вкажіть робочу пошту. 20 хвилин на проходження. Перезапуск заборонено.</div>
+        <div class="muted">Вхід через Google або вкажіть робочу пошту. 20 хвилин на проходження. Перезапуск заборонено.</div>
           <div class="progress"><i id="bar"></i></div>
         </div>
         <div id="userBlock" class="signin-wrap">
@@ -102,14 +102,14 @@
   </div>
 
   <script>
-    // ====== НАЛАШТУВАННЯ ТЕСТУ ======
+    // ====== НАЛАШТУВАННЯ ТЕСТУ (адаптовано під ČEZ) ======
     const QUIZ = {
       title: "Тест про Чехію та ČEZ (10 питань)",
       durationMin: 20,
       webhookUrl: "https://script.google.com/macros/s/AKfycbz0ZKCEcUj6tMBIvp33L0QFlZMZ8u4R4floJi9FiIwGYOABVLt7zuf_hu50UMYAgcOJ/exec",
 
-      // Ключ правильних відповідей (0-базові індекси) рівно під 10 питань:
-      // [1: Фіала, 2: Павел, 3: Бенеш, 4: 1993, 5: ~20 млрд €, 6: Прага, 7: 15 тис., 8: Празька біржа, 9: Карлів міст, 10: Пльзень]
+      // Ключ правильних відповідей (0-базові індекси) — рівно під 10 питань:
+      // [1: Фіала, 2: Павел, 3: Бенеш (CEO ČEZ), 4: 1993, 5: ~20 млрд €, 6: Прага (HQ), 7: ~15 тис. співроб., 8: ПФБ, 9: Карлів міст, 10: Пльзень]
       answerKey: [0,0,0,0,1,0,1,1,0,1],
 
       questions: [
@@ -286,7 +286,7 @@
       if(q.type==='single'){
         const sel = options.querySelector('input:checked'); picked = sel ? [ +sel.value ] : [];
       } else if(q.type==='multiple'){
-        picked = [...options.querySelectorAll('input:checked')].map(i=>+i.value);
+        picked = [...options.querySelectorAll('input:checked').map(i=>+i.value)];
       } else if(q.type==='order'){
         picked = Array.from(options.querySelectorAll('#orderList .draggable')).map(el=>el.textContent);
       } else if(q.type==='match'){
@@ -307,7 +307,7 @@
       bar.style.width = '100%';
       const payload = buildPayload();
 
-      // 1) Локальна перевірка — одразу показуємо результат
+      // 1) Локальна перевірка — показуємо результат одразу
       const local = localCheck(payload);
 
       stage.innerHTML = `
@@ -333,7 +333,7 @@
         rows.appendChild(tr); 
       });
 
-      // 2) Відправляємо на сервер (у фоні)
+      // 2) Відправка на сервер (у фоні)
       const sendStatus = document.querySelector('#sendStatus .status');
       const trySend = async () => {
         sendStatus.className = 'status';
